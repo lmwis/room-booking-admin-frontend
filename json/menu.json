@@ -3,62 +3,41 @@
 	"msg": "ok",
 	"data": [{
 			"id": 1,
-			"name": "会员管理",
+			"name": "审批管理",
 			"icon": "&#xe6b8;",
 			"url": "",
 			"children": [{
 				"id": 2,
-				"name": "会员列表",
+				"name": "当前审批",
 				"icon": "",
-				"url": "./pages/member/list.html"
+				"url": "./pages/approve/list.html"
 			}, {
 				"id": 3,
-				"name": "会员删除",
+				"name": "历史审批",
 				"icon": "",
 				"url": "./pages/member/del.html"
-			}, {
-				"id": 4,
-				"name": "会员管理",
-				"icon": "&#xe70b;",
-				"url": "",
-				"children": [{
-					"id": 5,
-					"name": "输入框操作",
-					"icon": "",
-					"url": "./pages/member/addInput.html"
-				}, {
-					"id": 6,
-					"name": "三级菜单演示",
-					"icon": "",
-					"url": "./pages/404.html"
-				}, {
-					"id": 7,
-					"name": "导航菜单演示",
-					"icon": "&#xe70b;",
-					"url": "./pages/404.html"
-				}]
 			}]
 		},
 		{
 			"id": 8,
-			"name": "文章管理",
+			"name": "会议室预约",
 			"icon": "&#xe705;",
 			"url": "",
 			"children": [{
 				"id": 9,
-				"name": "文章列表",
+				"name": "会议室状态",
 				"icon": "",
 				"url": "./pages/article/list.html"
 			}, {
 				"id": 10,
-				"name": "分类管理",
+				"name": "当前预约情况",
 				"icon": "",
 				"url": "./pages/article/category.html"
 			}]
 		},
 		{
 			"id": 11,
-			"name": "订单管理",
+			"name": "历史预约",
 			"icon": "&#xe723;",
 			"url": "",
 			"children": [{

@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>后台管理-WeAdmin Frame型后台管理系统-WeAdmin 1.0</title>
+		<title>会议室预约后台管理系统</title>
 		<meta name="renderer" content="webkit|ie-comp|ie-stand">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -19,30 +19,13 @@
 		<!-- 顶部开始 -->
 		<div class="container">
 			<div class="logo">
-				<a href="./index.html">WeAdmin v1.0</a>
+				<a href="./index.html">Fehead Admin</a>
 			</div>
 			<div class="left_open">
 				<!-- <i title="展开左侧栏" class="iconfont">&#xe699;</i> -->
 				<i title="展开左侧栏" class="layui-icon layui-icon-shrink-right"></i>
 				
 			</div>
-			<ul class="layui-nav left fast-add" lay-filter="">
-				<li class="layui-nav-item">
-					<a href="javascript:;">+新增</a>
-					<dl class="layui-nav-child">
-						<!-- 二级菜单 -->
-						<dd>
-							<a onclick="WeAdminShow('资讯','https://www.baidu.com/')"><i class="layui-icon layui-icon-list"></i>资讯</a>
-						</dd>
-						<dd>
-							<a onclick="WeAdminShow('图片','http://www.baidu.com')"><i class="layui-icon layui-icon-picture-fine"></i>图片</a>
-						</dd>
-						<dd>
-							<a onclick="WeAdminShow('用户','https://www.jiuwei.com/')"><i class="layui-icon layui-icon-user"></i>用户</a>
-						</dd>
-					</dl>
-				</li>
-			</ul>
 			<ul class="layui-nav right" lay-filter="">
 				<li class="layui-nav-item">
 					<a href="javascript:;">Admin</a>
@@ -77,11 +60,11 @@
 		<div class="page-content">
 			<div class="layui-tab tab" lay-filter="wenav_tab" id="WeTabTip" lay-allowclose="true">
 				<ul class="layui-tab-title" id="tabName">
-					<li>我的桌面</li>
+					<li>当前审批</li>
 				</ul>
 				<div class="layui-tab-content">
 					<div class="layui-tab-item layui-show">
-						<iframe src='./pages/welcome.html' frameborder="0" scrolling="yes" class="weIframe"></iframe>
+						<iframe src='./pages/approve/list.html' frameborder="0" scrolling="yes" class="weIframe"></iframe>
 					</div>
 				</div>
 			</div>
@@ -91,7 +74,7 @@
 		<!-- 中部结束 -->
 		<!-- 底部开始 -->
 		<div class="footer">
-			<div class="copyright">Copyright ©2018 WeAdmin v1.0 All Rights Reserved</div>
+			<div class="copyright">Copyright ©2021 Fehead Studio All Rights Reserved</div>
 		</div>
 		<!-- 底部结束 -->
 		<script type="text/javascript">
