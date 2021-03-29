@@ -25,7 +25,7 @@
             <hr class="hr15">
             <input name="password" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
             <hr class="hr15">
-            <input class="loginin" value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <input id="login-button" class="loginin" value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
             <hr class="hr20" >
         </form>
     </div>
@@ -35,31 +35,44 @@
         	layui.extend({
 				admin: '{/}./static/js/admin'
 			});
-            layui.use(['form','admin'], function(){
+            layui.use(['form','admin','jquery'], function(){
               var form = layui.form
-              	,admin = layui.admin;
+              	,admin = layui.admin
+                  , $ = layui.$;
               // layer.msg('玩命卖萌中', function(){
               //   //关闭后的操作
               //   });
               //监听提交
               form.on('submit(login)', function(data){
-                // alert(888)
-                layer.msg(JSON.stringify(data.field),function(){
-                    $.ajax({
-                        url:hostPre+"api/v1/admin/login",
-                        type:"post",
-                        data:{
-                            username:data.field.username,
-                            password:data.field.password
-                        },
-                        success:function (res) {
-                            console.log(res);
-                            location.href='./index.html'
-                        }
+                  $("#login-button").attr("disabled","true");
+                  $.ajax({
+                      url:hostPre+"api/v1/admin/login",
+                      type:"post",
+                      data:{
+                          username:data.field.username,
+                          password:data.field.password
+                      },
+                      success:function (res) {
+                          console.log(res);
+                          console.log(res.state);
+                          location.href='./index.html'
+                      },
+                      error:function (res) {
+                          console.log(res);
+                          console.log(res.data);
+                          console.log(res.message);
+                          layer.msg("登录失败"+res.data,function(){
+                              // location.href='./index.html'
+                          });
 
-                    })
+                          $("#login-button").removeAttr("disabled");
+                      }
+                  });
+                // alert(888)
+                // layer.msg(JSON.stringify(data.field),function(){
+                //
                     // location.href='./index.html'
-                });
+                // });
                 return false;
               });
             });   
