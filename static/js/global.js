@@ -4,4 +4,5 @@ var b64EncodeUnicode =  function(str) {
         function(match, p1) {
             return String.fromCharCode('0x' + p1);
         }));
-}
+};
+var token;

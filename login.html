@@ -44,8 +44,6 @@
               //监听提交
               form.on('submit(login)', function(data){
                   $("#login-button").attr("disabled","true");
-                  var auth = "Bearer "+b64EncodeUnicode("Basic "+data.field.username+":"+data.field.password);
-                  console.log(auth);
                   $.ajax({
                       url:hostPre+"admin/login",
                       type:"post",
@@ -55,22 +53,23 @@
                           grant_type:"password",
                           scope:"all"
                       },
+                      xhrFields:{withCredentials:true},
                       headers:{
-                          "Authorization":auth
+                          "Authorization":"Basic YWRtaW46MTIzNDU2"
                       },
                       success:function (res) {
                           console.log(res);
-                          console.log(res.state);
-                          location.href='./index.html'
+                          // location.href='./index.html'
+                          token = res.access_token;
                       },
                       error:function (res) {
-                          console.log(res);
-                          console.log(res.data);
-                          console.log(res.message);
-                          layer.msg("登录失败"+res.data,function(){
-                              // location.href='./index.html'
-                          });
-
+                          if(res.state===401){
+                              layer.msg("登录失败，用户名或密码错误",function(){
+                              });
+                          }else{
+                              layer.msg("登录失败，未知错误",function(){
+                              });
+                          }
                           $("#login-button").removeAttr("disabled");
                       }
                   });
