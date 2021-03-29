@@ -31,7 +31,6 @@
     </div>
 
     <script type="text/javascript">
-        
         	layui.extend({
 				admin: '{/}./static/js/admin'
 			});
@@ -45,12 +44,19 @@
               //监听提交
               form.on('submit(login)', function(data){
                   $("#login-button").attr("disabled","true");
+                  var auth = "Bearer "+b64EncodeUnicode("Basic "+data.field.username+":"+data.field.password);
+                  console.log(auth);
                   $.ajax({
-                      url:hostPre+"api/v1/admin/login",
+                      url:hostPre+"admin/login",
                       type:"post",
                       data:{
                           username:data.field.username,
-                          password:data.field.password
+                          password:data.field.password,
+                          grant_type:"password",
+                          scope:"all"
+                      },
+                      headers:{
+                          "Authorization":auth
                       },
                       success:function (res) {
                           console.log(res);
