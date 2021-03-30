@@ -5,4 +5,15 @@ var b64EncodeUnicode =  function(str) {
             return String.fromCharCode('0x' + p1);
         }));
 };
-var token;
+/**
+ * 格式化字符串
+ * @param src
+ * @returns {void | string | never|null}
+ */
+String.format = function(src){
+    if (arguments.length == 0) return null;
+    var args = Array.prototype.slice.call(arguments, 1);
+    return src.replace(/\{(\d+)\}/g, function(m, i){
+        return args[i];
+    });
+};

@@ -45,7 +45,7 @@
               form.on('submit(login)', function(data){
                   $("#login-button").attr("disabled","true");
                   $.ajax({
-                      url:hostPre+"admin/login",
+                      url:hostPre+"api/v1/admin/login",
                       type:"post",
                       data:{
                           username:data.field.username,
@@ -59,11 +59,11 @@
                       },
                       success:function (res) {
                           console.log(res);
-                          // location.href='./index.html'
-                          token = res.access_token;
+                          location.href='./index.html'
+                          localStorage.setItem("token", res.access_token);
                       },
                       error:function (res) {
-                          if(res.state===401){
+                          if(res.status===401){
                               layer.msg("登录失败，用户名或密码错误",function(){
                               });
                           }else{
