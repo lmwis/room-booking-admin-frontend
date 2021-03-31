@@ -67,12 +67,13 @@
             <th>邮箱</th>
             <th>工号/学号</th>
             <th>电话</th>
+            <th>申请会议室</th>
             <th>申请用途</th>
             <th>申请使用时间</th>
             <th>状态</th>
             <th>操作</th>
         </thead>
-        <tbody id="content">
+        <tbody id="container">
 
         </tbody>
     </table>
@@ -95,9 +96,8 @@
     });
     layui.use(['jquery'], function () {
         var $ = layui.$;
-
         $.ajax({
-            url: hostPre + "api/v1/applications?role=admin",
+            url: hostPre + "api/v1/applications?role=admin&pageNum=1",
             type: "get",
             // data: {
             //     username: data.field.username,
@@ -105,13 +105,13 @@
             //     grant_type: "password",
             //     scope: "all"
             // },
-            // xhrFields: {withCredentials: true},
+            xhrFields: {withCredentials: true},
             headers: {
                 "Authorization": "Bearer "+localStorage.getItem("token")
             },
             success: function (res) {
                 console.log(res);
-                if(res.data.status=="success"){
+                if(res.status=="success"){
                     var template = `<tr>
             <td>
                 <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i>
@@ -126,14 +126,15 @@
             <td>{6}</td>
             <td>{7}</td>
             <td>{8}</td>
-            <td>{9}<br>{10}</td>
+            <td>{9}</td>
+            <td>{10}<br>{11}</td>
             <td class="td-status">
-                <span class="layui-btn layui-btn-normal layui-btn-xs">{11}</span></td>
+                <span class="layui-btn layui-btn{14} layui-btn-xs">{12}</span></td>
             <td class="td-manage">
                 <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
                     <i class="layui-icon">&#xe601;</i>
                 </a>
-                <a title="编辑" onclick="WeAdminShow('编辑','./edit.html')" href="javascript:;">
+                <a title="编辑" onclick="WeAdminEdit('编辑','./edit.html',{13})" href="javascript:;">
                     <i class="layui-icon">&#xe642;</i>
                 </a>
                 <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
@@ -143,25 +144,34 @@
         </tr>`;
                     var content = "";
 
-                    for(var i=0;i<res.data.data.length;i++){
-                        var data = res.data.data[i];
+                    for(var i=0;i<res.data.length;i++){
+                        var data = res.data[i];
                         var statusStr= "未处理";
+                        var btnColor = "-normal";
                         if (data.status==1){
-                            statusStr = "";
+                            statusStr = "已通过";
+                            btnColor = ""
                         }else if(statusStr == 2){
-                            statusStr = "";
+                            statusStr = "已拒绝";
+                            btnColor = "-danger"
+                        }else if(statusStr == 3){
+                            statusStr = "已失效";
+                            btnColor = "-primary";
                         }
-                        content += String.format(template,data.id,data.applicant,data.college,data,classes,data.identity,data.email,data.jobNumber
-                            ,data.phoneNumber,data.resonsForSpplication,data.startStamp,data.endStamp,statusStr);
+                        content += String.format(template,data.id,data.applicant,data.college,data.classes,data.identity,data.email,data.jobNumber
+                            ,data.phoneNumber,data.room.roomName,data.reasonsForApplication,timestampToString(data.startStamp),timestampToString(data.endStamp)
+                            ,statusStr,data.id,btnColor);
                     }
-
-                    $("#content").innerText=content;
+                    $("#container").html(content);
                 }
                 // location.href = './index.html'
                 // token = res.access_token;
             },
             error: function (res) {
                 if (res.status === 401) {
+                    console.log("未授权");
+                    parent.window.location.href = '../../login.html';
+                    localStorage.removeItem("token");
                 } else {
                 }
             }

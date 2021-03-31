@@ -10,6 +10,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../static/css/font.css">
     <link rel="stylesheet" href="../../static/css/weadmin.css">
+    <script src="../../static/js/global.js" charset="utf-8"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -93,11 +94,19 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label for="phone" class="layui-form-label">
+                <span class="we-red">*</span>申请会议室
+            </label>
+            <div class="layui-input-block" id="room">
+
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label for="reason" class="layui-form-label">
                 <span class="we-red">*</span>申请用途
             </label>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="reason" name="reason" required="" lay-verify="phone"
+                <input type="text" value="18925139194" id="reason" name="reason" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -106,7 +115,7 @@
                 <span class="we-red">*</span>预约日期
             </label>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="apply-day" name="apply-day" required="" lay-verify="phone"
+                <input type="text" value="18925139194" id="apply-day" name="apply-day" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -115,11 +124,11 @@
                 <span class="we-red">*</span>预约时间
             </label>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="start-time" name="start-time" required="" lay-verify="phone"
+                <input type="text" value="18925139194" id="start-time" name="start-time" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="end-time" name="end-time" required="" lay-verify="phone"
+                <input type="text" value="18925139194" id="end-time" name="end-time" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -128,13 +137,13 @@
                 <span class="we-red">*</span>备注
             </label>
             <div class="layui-input-inline">
-                <textarea type="text" id="remark" name="remark" required="" lay-verify="phone"
+                <textarea type="text" id="remark" name="remark" required=""
                           autocomplete="off" class="layui-textarea">xx</textarea>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><span class="we-red">*</span>状态</label>
-            <div class="layui-input-block">
+            <div id="status" class="layui-input-block">
                 <input type="radio" name="state" lay-skin="primary" title="未处理" checked="">
                 <input type="radio" name="state" lay-skin="primary" title="通过">
                 <input type="radio" name="state" lay-skin="primary" title="拒绝">
@@ -145,6 +154,12 @@
                 保存
             </button>
         </div>
+        <!-- 隐藏表单来装别的数据 -->
+        <input id="applicationStamp" name="applicationStamp" type="hidden">
+        <input id="endStamp" name="endStamp" type="hidden">
+        <input id="startStamp" name="startStamp" type="hidden">
+        <input id="roomId" name="roomId" type="hidden">
+        <input id="roomStatusId" name="roomStatusId" type="hidden">
     </form>
 </div>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
@@ -152,26 +167,26 @@
     layui.extend({
         admin: '{/}../../static/js/admin'
     });
-    layui.use(['form', 'layer', 'admin','laydate'], function () {
+    layui.use(['form', 'layer', 'admin','laydate','jquery'], function () {
         var form = layui.form,
-            admin = layui.admin,
             laydate = layui.laydate,
-            layer = layui.layer;
+            layer = layui.layer,
+            $ = layui.$;
 
         //自定义验证规则
-        form.verify({
-            nikename: function (value) {
-                if (value.length < 5) {
-                    return '昵称至少得5个字符啊';
-                }
-            }
-            , pass: [/(.+){6,12}$/, '密码必须6到12位']
-            , repass: function (value) {
-                if ($('#L_pass').val() != $('#L_repass').val()) {
-                    return '两次密码不一致';
-                }
-            }
-        });
+        // form.verify({
+        //     nikename: function (value) {
+        //         if (value.length < 5) {
+        //             return '昵称至少得5个字符啊';
+        //         }
+        //     }
+        //     , pass: [/(.+){6,12}$/, '密码必须6到12位']
+        //     , repass: function (value) {
+        //         if ($('#L_pass').val() != $('#L_repass').val()) {
+        //             return '两次密码不一致';
+        //         }
+        //     }
+        // });
         //执行一个laydate实例
         laydate.render({
             elem: '#apply-day' //指定元素
@@ -187,13 +202,35 @@
         //监听提交
         form.on('submit(add)', function (data) {
             console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6}, function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
+            $.ajax({
+                url: hostPre + "api/v1/applications/" + id + "?role=admin",
+                type: "put",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                data:{
+
+                },
+                success:function (res) {
+
+                },
+                error: function (res) {
+                    if (res.status === 401) {
+                        console.log("未授权");
+                        parent.window.location.href = '../../login.html';
+                        localStorage.removeItem("token");
+                    } else {
+                        console.log(res);
+                    }
+                }
             });
+            //发异步，把数据提交给php
+            // layer.alert("增加成功", {icon: 6}, function () {
+            //     // 获得frame索引
+            //     var index = parent.layer.getFrameIndex(window.name);
+            //     //关闭当前frame
+            //     parent.layer.close(index);
+            // });
             return false;
         });
 
