@@ -355,13 +355,15 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
                 // body.contents();
                 console.log(id);
                 $.ajax({
-                    url: hostPre + "api/v1/applications/"+id+"?role=admin",
+                    // url: hostPre + "api/v1/applications/"+id+"?role=admin",
+					url: "http://localhost:9200/application/_doc/"+id,
                     type: "get",
-                    headers: {
-                        "Authorization": "Bearer "+localStorage.getItem("token")
-                    },
+                    // headers: {
+                    //     "Authorization": "Bearer "+localStorage.getItem("token")
+                    // },
                     success: function (res) {
                         console.log(res);
+                        res = res._source;
                         body.contents().find("#id").val(id);
                         body.contents().find("#username").val(res.data.applicant);
                         body.contents().find("#college").val(res.data.college);
@@ -376,20 +378,15 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
                         body.contents().find("#start-time").val(new Date(res.data.startStamp).format("hh:mm:ss"));
                         body.contents().find("#end-time").val(new Date(res.data.endStamp).format("hh:mm:ss"));
                         body.contents().find("#remark").val(res.data.remarks);
-                        let template = `<input type="radio" name="state" lay-skin="primary" title="未处理" {0} />`
-							+`<input type="radio" name="state" lay-skin="primary" title="已通过" {1} />`
-							+`<input type="radio" name="state" lay-skin="primary" title="已拒绝"{2} />`
-						let content = "";
-						if(res.data.status==0){
-                            content = String.format(template,"checked='true'","","")
-                        }else if(res.data.status==1){
-                            content = String.format(template,"","checked='true'","")
-                        }else if(res.data.status==2){
-                            content = String.format(template,"","","checked='true'")
-                        }
+						console.log(res.data.status);
+                        body.contents().find("#status-"+res.data.status).attr("checked","true");
+                        // if(res.data.status==0){
+                        // }else if(res.data.status==1){
+                        // }else if(res.data.status==2){
+                        // }
 						// console.log(content);
                         // body.contents().find("#status").text(content);
-                        body.contents().find("#status").html(content);
+
 
 						var templateRoom = `<input type="checkbox" name="room" lay-skin="primary" value="1" title="403网络直播间" {0} />
                 <input type="checkbox" name="room" lay-skin="primary" value="2" title="404共享会议室" />`;
@@ -400,7 +397,7 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
                             contentRoom = String.format(templateRoom,"","checked='true'")
                         }
                         console.log(contentRoom);
-                        body.contents().find("#room").innerHtml=contentRoom;
+                        body.contents().find("#room").text(contentRoom);
 						// 隐藏属性设置
                         body.contents().find("#applicationStamp").val(res.data.applicationStamp);
                         body.contents().find("#endStamp").val(res.data.endStamp);

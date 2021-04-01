@@ -74,7 +74,35 @@
             <th>操作</th>
         </thead>
         <tbody id="container">
-
+        <td>
+            <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i>
+            </div>
+        </td>
+        <td>{0}</td>
+        <td>{1}</td>
+        <td>{2}</td>
+        <td>{3}</td>
+        <td>{4}</td>
+        <td>{5}</td>
+        <td>{6}</td>
+        <td>{7}</td>
+        <td>{8}</td>
+        <td>{9}</td>
+        <td>{10}<br>{11}</td>
+        <td class="td-status">
+            <span class="layui-btn layui-btn{14} layui-btn-xs">{12}</span></td>
+        <td class="td-manage">
+            <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
+                <i class="layui-icon">&#xe601;</i>
+            </a>
+            <a title="编辑" onclick="WeAdminEdit('编辑','./edit.html',2)" href="javascript:;">
+                <i class="layui-icon">&#xe642;</i>
+            </a>
+            <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                <i class="layui-icon">&#xe640;</i>
+            </a>
+        </td>
+        </tr>`;
         </tbody>
     </table>
     <div class="page">
@@ -96,6 +124,7 @@
     });
     layui.use(['jquery'], function () {
         var $ = layui.$;
+        return ;
         $.ajax({
             url: hostPre + "api/v1/applications?role=admin&pageNum=1",
             type: "get",
@@ -168,6 +197,7 @@
                 // token = res.access_token;
             },
             error: function (res) {
+                // console.log(res);
                 if (res.status === 401) {
                     console.log("未授权");
                     parent.window.location.href = '../../login.html';
