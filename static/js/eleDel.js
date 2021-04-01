@@ -53,13 +53,40 @@ layui.use(['laydate', 'jquery', 'admin'], function() {
 
 	/*用户-删除*/
 	window.member_del = function (obj, id) {
+        console.log("进行删除");
 		layer.confirm('确认要删除吗？', function(index) {
 			//发异步删除数据
-			$(obj).parents("tr").remove();
-			layer.msg('已删除!', {
-				icon: 1,
-				time: 1000
-			});
+            $.ajax({
+                url: hostPre + "api/v1/applications/" + id + "?role=admin",
+                // url: "http://localhost:9200/application/_doc/"+id,
+                type: "delete",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                success: function (res) {
+                    if(res.status=="success"){
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!', {
+                            icon: 1,
+                            time: 1000
+                        });
+                    }else{
+                        layer.msg('删除失败!', {
+                            icon: 2,
+                            time: 1000
+                        });
+					}
+                },
+                error: function (res) {
+                    if (res.status === 401) {
+                        console.log("未授权");
+                        parent.window.location.href = '../../login.html';
+                        localStorage.removeItem("token");
+                    } else {
+
+                    }
+                }
+            });
 		});
 	}
 

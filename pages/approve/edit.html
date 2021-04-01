@@ -27,16 +27,16 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="id" name="id" required="" lay-verify="required"
-                       autocomplete="off" value="admin" class="layui-input" disabled>
+                       autocomplete="off" value=" " class="layui-input" disabled>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="username" class="layui-form-label">
+            <label for="applicant" class="layui-form-label">
                 <span class="we-red">*</span>申请人
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="username" name="username" required="" lay-verify="required"
-                       autocomplete="off" value="admin" class="layui-input">
+                <input type="text" id="applicant" name="applicant" required="" lay-verify="required"
+                       autocomplete="off" value=" " class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -45,7 +45,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="college" name="college" required="" lay-verify="required"
-                       autocomplete="off" value="admin" class="layui-input">
+                       autocomplete="off" value=" " class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -54,7 +54,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="classes" name="classes" required="" lay-verify="required"
-                       autocomplete="off" value="admin" class="layui-input">
+                       autocomplete="off" value=" " class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -63,7 +63,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="identity" name="identity" required="" lay-verify="required"
-                       autocomplete="off" value="admin" class="layui-input">
+                       autocomplete="off" value=" " class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -72,41 +72,44 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="email" name="email" required="" lay-verify="required"
-                       autocomplete="off" value="admin" class="layui-input">
+                       autocomplete="off" value="" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="job-number" class="layui-form-label">
+            <label for="jobNumber" class="layui-form-label">
                 <span class="we-red">*</span>工号/学号
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="job-number" name="job-number" required="" lay-verify="required"
-                       autocomplete="off" value="admin" class="layui-input">
+                <input type="text" id="jobNumber" name="jobNumber" required="" lay-verify="required"
+                       autocomplete="off" value=" " class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">
+            <label for="phoneNumber" class="layui-form-label">
                 <span class="we-red">*</span>电话
             </label>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="phone" name="phone" required="" lay-verify="phone"
+                <input type="text" value="" id="phoneNumber" name="phoneNumber" required="" lay-verify="phone"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">
+            <label for="roomId" class="layui-form-label">
                 <span class="we-red">*</span>申请会议室
             </label>
-            <div class="layui-input-block" id="room">
-
+            <div class="layui-input-inline">
+                <select id="roomId" name="roomId">
+                    <option name="roomId" value="1">403网络直播间</option>
+                    <option name="roomId" value="2">404共享会议室</option>
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="reason" class="layui-form-label">
+            <label for="reasonsForApplication" class="layui-form-label">
                 <span class="we-red">*</span>申请用途
             </label>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="reason" name="reason" lay-verify="required"
+                <input type="text" value="" id="reasonsForApplication" name="reasonsForApplication" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -115,7 +118,7 @@
                 <span class="we-red">*</span>预约日期
             </label>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="apply-day" name="apply-day" lay-verify="required"
+                <input type="text" value="" id="apply-day" name="apply-day" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
@@ -124,29 +127,32 @@
                 <span class="we-red">*</span>预约时间
             </label>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="start-time" name="start-time" required="" lay-verify="required"
+                <input type="text" value="" id="start-time" name="start-time" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-input-inline">
-                <input type="text" value="18925139194" id="end-time" name="end-time" required="" lay-verify="required"
+                <input type="text" value="" id="end-time" name="end-time" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="remark" class="layui-form-label">
+            <label for="remarks" class="layui-form-label">
                 <span class="we-red">*</span>备注
             </label>
             <div class="layui-input-inline">
-                <textarea type="text" id="remark" name="remark" required=""
-                          autocomplete="off" class="layui-textarea">xx</textarea>
+                <textarea type="text" id="remarks" name="remarks" required=""
+                          autocomplete="off" class="layui-textarea"></textarea>
             </div>
         </div>
-        <div class="layui-form-item">
+        <!--<div class="layui-form-item">-->
+        <div>
             <label class="layui-form-label"><span class="we-red">*</span>状态</label>
-            <div  class="layui-input-block">
-                <input id="status-0" type="radio" name="state" lay-skin="primary" title="未处理" checked="">
-                <input id="status-1" type="radio" name="state" lay-skin="primary" title="已通过">
-                <input id="status-2" type="radio" name="state" lay-skin="primary" title="已拒绝">
+            <div  class="layui-input-inline">
+                <select id="status" name="status">
+                    <option value="0">未处理</option>
+                    <option value="1">已通过</option>
+                    <option value="2">已拒绝</option>
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
@@ -158,7 +164,6 @@
         <input id="applicationStamp" name="applicationStamp" type="hidden">
         <input id="endStamp" name="endStamp" type="hidden">
         <input id="startStamp" name="startStamp" type="hidden">
-        <input id="roomId" name="roomId" type="hidden">
         <input id="roomStatusId" name="roomStatusId" type="hidden">
     </form>
 </div>
@@ -173,6 +178,51 @@
             layer = layui.layer,
             $ = layui.$;
 
+        let id = getUrlParam("id");
+        $.ajax({
+            url: hostPre + "api/v1/applications/"+id+"?role=admin",
+            // url: "http://localhost:9200/application/_doc/"+id,
+            type: "get",
+            headers: {
+                "Authorization": "Bearer "+localStorage.getItem("token")
+            },
+            success: function (res) {
+                // res = res._source;
+                $("#id").val(id);
+                $("#applicant").val(res.data.applicant);
+                $("#college").val(res.data.college);
+                $("#classes").val(res.data.classes);
+                $("#identity").val(res.data.identity);
+                $("#email").val(res.data.email);
+                $("#jobNumber").val(res.data.jobNumber);
+                $("#phoneNumber").val(res.data.phoneNumber);
+                $("#reasonsForApplication").val(res.data.reasonsForApplication);
+                // console.log(timestampToString(res.data.startStamp));
+                $("#apply-day").val(new Date(res.data.startStamp).format("yyyy-MM-dd"));
+                $("#start-time").val(new Date(res.data.startStamp).format("hh:mm:ss"));
+                $("#end-time").val(new Date(res.data.endStamp).format("hh:mm:ss"));
+                $("#remarks").val(res.data.remarks);
+                $("#status").val(res.data.status);
+                $("#roomId").val(res.data.roomId);
+
+                // 隐藏属性设置
+                $("#applicationStamp").val(res.data.applicationStamp);
+                $("#endStamp").val(res.data.endStamp);
+                $("#startStamp").val(res.data.startStamp);
+                $("#roomStatusId").val(res.data.roomStatusId);
+
+                form.render('select');
+            },
+            error: function (res) {
+                if (res.status === 401) {
+                    console.log("未授权");
+                    parent.window.location.href = '../../login.html';
+                    localStorage.removeItem("token");
+                } else {
+
+                }
+            }
+        })
         //自定义验证规则
         // form.verify({
         //     nikename: function (value) {
@@ -202,19 +252,41 @@
         //监听提交
         form.on('submit(add)', function (data) {
             console.log(data);
+            let jsonData={
+                "remarks":data.field.remarks,
+                "email":data.field.email
+            };
             $.ajax({
                 url: hostPre + "api/v1/applications/" + id + "?role=admin",
                 type: "put",
                 headers: {
-                    "Authorization": "Bearer " + localStorage.getItem("token")
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                    "content-type":"application/json"
                 },
-                data:{
-
-                },
+                data:JSON.stringify (data.field),
                 success:function (res) {
+                    console.log(res);
+                    if(res.status=="success"){
+                        layer.alert("修改成功", {icon: 1}, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            parent.initData();
+                        });
+                    }else{
+                        layer.alert("修改失败", {icon: 2}, function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            // parent.
+                        });
+                    }
 
                 },
                 error: function (res) {
+                    console.log(res);
                     if (res.status === 401) {
                         console.log("未授权");
                         parent.window.location.href = '../../login.html';
@@ -224,13 +296,6 @@
                     }
                 }
             });
-            //发异步，把数据提交给php
-            // layer.alert("增加成功", {icon: 6}, function () {
-            //     // 获得frame索引
-            //     var index = parent.layer.getFrameIndex(window.name);
-            //     //关闭当前frame
-            //     parent.layer.close(index);
-            // });
             return false;
         });
 

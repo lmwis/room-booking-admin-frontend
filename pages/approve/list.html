@@ -74,35 +74,6 @@
             <th>操作</th>
         </thead>
         <tbody id="container">
-        <td>
-            <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i>
-            </div>
-        </td>
-        <td>{0}</td>
-        <td>{1}</td>
-        <td>{2}</td>
-        <td>{3}</td>
-        <td>{4}</td>
-        <td>{5}</td>
-        <td>{6}</td>
-        <td>{7}</td>
-        <td>{8}</td>
-        <td>{9}</td>
-        <td>{10}<br>{11}</td>
-        <td class="td-status">
-            <span class="layui-btn layui-btn{14} layui-btn-xs">{12}</span></td>
-        <td class="td-manage">
-            <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
-                <i class="layui-icon">&#xe601;</i>
-            </a>
-            <a title="编辑" onclick="WeAdminEdit('编辑','./edit.html',2)" href="javascript:;">
-                <i class="layui-icon">&#xe642;</i>
-            </a>
-            <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                <i class="layui-icon">&#xe640;</i>
-            </a>
-        </td>
-        </tr>`;
         </tbody>
     </table>
     <div class="page">
@@ -110,8 +81,8 @@
             <a class="prev" href="">&lt;&lt;</a>
             <a class="num" href="">1</a>
             <span class="current">2</span>
-            <a class="num" href="">3</a>
-            <a class="num" href="">489</a>
+            <!--<a class="num" href="">3</a>-->
+            <!--<a class="num" href="">489</a>-->
             <a class="next" href="">&gt;&gt;</a>
         </div>
     </div>
@@ -122,26 +93,29 @@
     layui.extend({
         admin: '{/}./static/js/admin'
     });
+    var initData;
     layui.use(['jquery'], function () {
         var $ = layui.$;
-        return ;
-        $.ajax({
-            url: hostPre + "api/v1/applications?role=admin&pageNum=1",
-            type: "get",
-            // data: {
-            //     username: data.field.username,
-            //     password: data.field.password,
-            //     grant_type: "password",
-            //     scope: "all"
-            // },
-            xhrFields: {withCredentials: true},
-            headers: {
-                "Authorization": "Bearer "+localStorage.getItem("token")
-            },
-            success: function (res) {
-                console.log(res);
-                if(res.status=="success"){
-                    var template = `<tr>
+        initData = function () {
+            $.ajax({
+                url: hostPre + "api/v1/applications?role=admin&pageNum=1",
+                type: "get",
+                // data: {
+                //     username: data.field.username,
+                //     password: data.field.password,
+                //     grant_type: "password",
+                //     scope: "all"
+                // },
+                xhrFields: {withCredentials: true},
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                success: function (res) {
+                    console.log(res);
+                    var content = "";
+                    if (res.status == "success") {
+                        for (var i = 0; i < res.data.length; i++) {
+                            var template = `<tr>
             <td>
                 <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i>
                 </div>
@@ -160,58 +134,69 @@
             <td class="td-status">
                 <span class="layui-btn layui-btn{14} layui-btn-xs">{12}</span></td>
             <td class="td-manage">
-                <a onclick="member_stop(this,'10001')" href="javascript:;" title="启用">
-                    <i class="layui-icon">&#xe601;</i>
-                </a>
-                <a title="编辑" onclick="WeAdminEdit('编辑','./edit.html',{13})" href="javascript:;">
+
+                `;
+                            var data = res.data[i];
+                            var statusStr = "未处理";
+                            var btnColor = "-normal";
+                            if (data.status == 1) {
+                                statusStr = "已通过";
+                                btnColor = ""
+                                template += `<a title="编辑" onclick="WeAdminEdit('编辑','./edit.html',{13})" href="javascript:;">
                     <i class="layui-icon">&#xe642;</i>
-                </a>
-                <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                </a>`;
+                            } else if (data.status == 2) {
+                                statusStr = "已拒绝";
+                                btnColor = "-danger"
+                                template += `<a title="编辑" onclick="WeAdminEdit('编辑','./edit.html',{13})" href="javascript:;">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>`;
+                            } else if (data.status == 3) {
+                                statusStr = "已失效";
+                                btnColor = "-primary";
+                            } else {
+                                statusStr = "未处理";
+                                btnColor = "-normal";
+                                template += `<a title="编辑" onclick="WeAdminEdit('编辑','./edit.html',{13})" href="javascript:;">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>`;
+                            }
+                            template += `<a title="删除" onclick="member_del(this,'{13}')" href="javascript:;">
                     <i class="layui-icon">&#xe640;</i>
                 </a>
             </td>
         </tr>`;
-                    var content = "";
-
-                    for(var i=0;i<res.data.length;i++){
-                        var data = res.data[i];
-                        var statusStr= "未处理";
-                        var btnColor = "-normal";
-                        if (data.status==1){
-                            statusStr = "已通过";
-                            btnColor = ""
-                        }else if(statusStr == 2){
-                            statusStr = "已拒绝";
-                            btnColor = "-danger"
-                        }else if(statusStr == 3){
-                            statusStr = "已失效";
-                            btnColor = "-primary";
+                            content += String.format(template, data.id, data.applicant, data.college, data.classes, data.identity, data.email, data.jobNumber
+                                , data.phoneNumber, data.room.roomName, data.reasonsForApplication, timestampToString(data.startStamp), timestampToString(data.endStamp)
+                                , statusStr, data.id, btnColor);
                         }
-                        content += String.format(template,data.id,data.applicant,data.college,data.classes,data.identity,data.email,data.jobNumber
-                            ,data.phoneNumber,data.room.roomName,data.reasonsForApplication,timestampToString(data.startStamp),timestampToString(data.endStamp)
-                            ,statusStr,data.id,btnColor);
+                        $("#container").html(content);
                     }
-                    $("#container").html(content);
+                    // location.href = './index.html'
+                    // token = res.access_token;
+                },
+                error: function (res) {
+                    // console.log(res);
+                    if (res.status === 401) {
+                        console.log("未授权");
+                        parent.window.location.href = '../../login.html';
+                        localStorage.removeItem("token");
+                    } else {
+                    }
                 }
-                // location.href = './index.html'
-                // token = res.access_token;
-            },
-            error: function (res) {
-                // console.log(res);
-                if (res.status === 401) {
-                    console.log("未授权");
-                    parent.window.location.href = '../../login.html';
-                    localStorage.removeItem("token");
-                } else {
-                }
-            }
-        });
+            });
+        }
+        initData();
+        // return ;
         // alert(888)
         // layer.msg(JSON.stringify(data.field),function(){
         //
         // location.href='./index.html'
         // });
     });
+
+    // var
+
 </script>
 </body>
 

@@ -347,74 +347,13 @@ layui.define(['jquery', 'form', 'layer', 'element'], function(exports) {
 			shadeClose: true,
 			shade: 0.4,
 			title: title,
-			content: url,
+			content: url+"?id="+id,
 			success: function(layero, index) {
 				//向iframe页的id=house的元素传值  // 参考 https://yq.aliyun.com/ziliao/133150
                 let body = layer.getChildFrame('body', index);
                 // console.log(body);
                 // body.contents();
-                console.log(id);
-                $.ajax({
-                    // url: hostPre + "api/v1/applications/"+id+"?role=admin",
-					url: "http://localhost:9200/application/_doc/"+id,
-                    type: "get",
-                    // headers: {
-                    //     "Authorization": "Bearer "+localStorage.getItem("token")
-                    // },
-                    success: function (res) {
-                        console.log(res);
-                        res = res._source;
-                        body.contents().find("#id").val(id);
-                        body.contents().find("#username").val(res.data.applicant);
-                        body.contents().find("#college").val(res.data.college);
-                        body.contents().find("#classes").val(res.data.classes);
-                        body.contents().find("#identity").val(res.data.identity);
-                        body.contents().find("#email").val(res.data.email);
-                        body.contents().find("#job-number").val(res.data.jobNumber);
-                        body.contents().find("#phone").val(res.data.phoneNumber);
-                        body.contents().find("#reason").val(res.data.reasonsForApplication);
-                        // console.log(timestampToString(res.data.startStamp));
-                        body.contents().find("#apply-day").val(new Date(res.data.startStamp).format("yyyy-MM-dd"));
-                        body.contents().find("#start-time").val(new Date(res.data.startStamp).format("hh:mm:ss"));
-                        body.contents().find("#end-time").val(new Date(res.data.endStamp).format("hh:mm:ss"));
-                        body.contents().find("#remark").val(res.data.remarks);
-						console.log(res.data.status);
-                        body.contents().find("#status-"+res.data.status).attr("checked","true");
-                        // if(res.data.status==0){
-                        // }else if(res.data.status==1){
-                        // }else if(res.data.status==2){
-                        // }
-						// console.log(content);
-                        // body.contents().find("#status").text(content);
 
-
-						var templateRoom = `<input type="checkbox" name="room" lay-skin="primary" value="1" title="403网络直播间" {0} />
-                <input type="checkbox" name="room" lay-skin="primary" value="2" title="404共享会议室" />`;
-						let contentRoom = "";
-                        if(res.data.roomId==1){
-                            contentRoom = String.format(templateRoom,"checked='true'","")
-                        }else if(res.data.roomId==2){
-                            contentRoom = String.format(templateRoom,"","checked='true'")
-                        }
-                        console.log(contentRoom);
-                        body.contents().find("#room").text(contentRoom);
-						// 隐藏属性设置
-                        body.contents().find("#applicationStamp").val(res.data.applicationStamp);
-                        body.contents().find("#endStamp").val(res.data.endStamp);
-                        body.contents().find("#startStamp").val(res.data.startStamp);
-                        body.contents().find("#roomId").val(res.data.roomId);
-                        body.contents().find("#roomStatusId").val(res.data.roomStatusId);
-                    },
-                    error: function (res) {
-                        if (res.status === 401) {
-                            console.log("未授权");
-                            parent.window.location.href = '../../login.html';
-                            localStorage.removeItem("token");
-                        } else {
-
-                        }
-                    }
-                })
 			},
 			error: function(layero, index) {
 				alert("aaa");
