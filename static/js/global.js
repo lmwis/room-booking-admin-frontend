@@ -1,4 +1,4 @@
-var hostPre = "http://10.111.62.80:8000/";
+var hostPre = "http://10.111.59.123:8000/";
 var b64EncodeUnicode =  function(str) {
     return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
         function(match, p1) {
