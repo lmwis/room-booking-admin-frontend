@@ -59,8 +59,7 @@
         <thead>
         <tr>
             <th>
-                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i
-                        class="layui-icon">&#xe605;</i></div>
+               提交时间
             </th>
             <th>ID</th>
             <th>申请人</th>
@@ -104,7 +103,8 @@
         var $ = layui.$,
             laypage = layui.laypage;
 
-        initData = async function (currentPage) {
+        initData = async function (currentPage=1) {
+
             await $.ajax({
                 url: hostPre + "api/v1/applications?role=admin&pageNum="+currentPage,
                 type: "get",
@@ -124,8 +124,7 @@
                         for (var i = 0; i < res.data.length; i++) {
                             var template = `<tr>
             <td>
-                <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i>
-                </div>
+                {15}
             </td>
             <td>{0}</td>
             <td>{1}</td>
@@ -175,7 +174,7 @@
         </tr>`;
                             content += String.format(template, data.id, data.applicant, data.college, data.classes, data.identity, data.email, data.jobNumber
                                 , data.phoneNumber, data.room.roomName, data.reasonsForApplication, timestampToString(data.startStamp), timestampToString(data.endStamp)
-                                , statusStr, data.id, btnColor);
+                                , statusStr, data.id, btnColor,timestampToString(data.applicationStamp));
                         }
                         $("#container").html(content);
                     }
@@ -194,7 +193,7 @@
             });
 
         };
-        initData(1);
+        initData();
         console.log(total);
         laypage.render({
             elem: 'page-container' //注意，这里的 test1 是 ID，不用加 # 号

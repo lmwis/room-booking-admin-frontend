@@ -222,22 +222,8 @@
 
                 }
             }
-        })
-        //自定义验证规则
-        // form.verify({
-        //     nikename: function (value) {
-        //         if (value.length < 5) {
-        //             return '昵称至少得5个字符啊';
-        //         }
-        //     }
-        //     , pass: [/(.+){6,12}$/, '密码必须6到12位']
-        //     , repass: function (value) {
-        //         if ($('#L_pass').val() != $('#L_repass').val()) {
-        //             return '两次密码不一致';
-        //         }
-        //     }
-        // });
-        //执行一个laydate实例
+        });
+        //执行一个laydate实例l
         laydate.render({
             elem: '#apply-day' //指定元素
         });
@@ -256,6 +242,8 @@
                 "remarks":data.field.remarks,
                 "email":data.field.email
             };
+            data.field.startStamp = new Date($("#apply-day").val()+" "+$("#start-time").val()).getTime();
+            data.field.endStamp = new Date($("#apply-day").val()+" "+$("#end-time").val()).getTime();
             $.ajax({
                 url: hostPre + "api/v1/applications/" + id + "?role=admin",
                 type: "put",
@@ -279,7 +267,7 @@
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
-                            parent.layer.close(index);
+                            // parent.layer.close(index);
                             // parent.
                         });
                     }
