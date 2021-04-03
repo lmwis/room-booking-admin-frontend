@@ -48,8 +48,11 @@
     <div class="weadmin-block">
         <!--<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>-->
         <!--<button class="layui-btn" onclick="WeAdminShow('添加用户','./add.html')"><i class="layui-icon"></i>添加</button>-->
-        <button class="layui-btn">
-            <span class="fr" style="line-height:40px">共有数据：88 条</span>
+        <button class="layui-btn layui-btn-primary">
+            <span class="fr" style="line-height:40px">共有数据：<span id="data-total">0</span> 条</span>
+        </button>
+        <button class="layui-btn layui-btn-normal">
+            <span class="fr" style="line-height:40px">未处理数据：<span id="data-unhandled">0</span> 条</span>
         </button>
     </div>
     <table class="layui-table">
@@ -76,16 +79,17 @@
         <tbody id="container">
         </tbody>
     </table>
-    <div class="page">
-        <div>
-            <a class="prev" href="">&lt;&lt;</a>
-            <a class="num" href="">1</a>
-            <span class="current">2</span>
-            <!--<a class="num" href="">3</a>-->
-            <!--<a class="num" href="">489</a>-->
-            <a class="next" href="">&gt;&gt;</a>
-        </div>
-    </div>
+    <!--<div class="page">-->
+        <!--<div>-->
+            <!--<a class="prev" href="">&lt;&lt;</a>-->
+            <!--<a class="num" href="">1</a>-->
+            <!--<span class="current">2</span>-->
+            <!--&lt;!&ndash;<a class="num" href="">3</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;<a class="num" href="">489</a>&ndash;&gt;-->
+            <!--<a class="next" href="">&gt;&gt;</a>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div  class="page" id="page-container">
 </div>
 <script src="../../lib/layui/layui.js" charset="utf-8"></script>
 <script src="../../static/js/eleDel.js" type="text/javascript" charset="utf-8"></script>
@@ -94,24 +98,27 @@
         admin: '{/}./static/js/admin'
     });
     var initData;
-    layui.use(['jquery'], function () {
-        var $ = layui.$;
-        initData = function () {
-            $.ajax({
-                url: hostPre + "api/v1/applications?role=admin&pageNum=1",
+    var total;
+
+    layui.use(['jquery','laypage'], function () {
+        var $ = layui.$,
+            laypage = layui.laypage;
+
+        initData = async function (currentPage) {
+            await $.ajax({
+                url: hostPre + "api/v1/applications?role=admin&pageNum="+currentPage,
                 type: "get",
-                // data: {
-                //     username: data.field.username,
-                //     password: data.field.password,
-                //     grant_type: "password",
-                //     scope: "all"
-                // },
+                async: false,
                 xhrFields: {withCredentials: true},
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 },
                 success: function (res) {
                     console.log(res);
+                    $("#data-total").text(res.total);
+                    $("#data-unhandled").text(res.unhandled);
+                    total = res.total;
+                    //执行一个laypage实例
                     var content = "";
                     if (res.status == "success") {
                         for (var i = 0; i < res.data.length; i++) {
@@ -185,14 +192,21 @@
                     }
                 }
             });
-        }
-        initData();
-        // return ;
-        // alert(888)
-        // layer.msg(JSON.stringify(data.field),function(){
-        //
-        // location.href='./index.html'
-        // });
+
+        };
+        initData(1);
+        console.log(total);
+        laypage.render({
+            elem: 'page-container' //注意，这里的 test1 是 ID，不用加 # 号
+            // ,count: res.total, //数据总数，从服务端得到
+            ,count: total,
+            limit:5,
+            jump: function(obj){
+                console.log("当前页"+obj.curr);
+                initData(obj.curr);
+            }
+        });
+
     });
 
     // var
